@@ -2,9 +2,13 @@ import {useState} from "react";
 import {loginUser} from "./loginApi";
 import {Session} from "../model/common";
 import {CustomError} from "../model/CustomError";
+import { Grid, Paper, Avatar, TextField, Button, Typography, Link, Checkbox, FormControlLabel } from '@mui/material';
+//import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
 export function Login() {
-
+    const paperStyle = { padding: 20, height: '70vh', width: 280, margin: '20px auto' };
+    const avatarStyle = { backgroundColor: '#1bbd7e' };
+    const btnstyle = { margin: '8px 0' };
     const [error, setError] = useState({} as CustomError);
     const [session, setSession] = useState({} as Session);
 
@@ -14,6 +18,8 @@ export function Login() {
         const data = new FormData(form);
         loginUser({user_id: -1, username:  data.get('login') as string, password: data.get('password') as string},
             (result: Session) => {
+                console.log("result");
+
                 console.log(result);
                 setSession(result);
                 form.reset();
@@ -25,18 +31,43 @@ export function Login() {
             });
     };
 
-    return(<>
-        <form onSubmit={handleSubmit}>
-            <input name="login" placeholder="login"/><br/>
-            <input name="password" placeholder="password"/><br/>
-            <button type="submit">connexion</button>
-        </form>
-            { session.token &&
-                <span>{session.username} : {session.token}</span>
-            }
-            { error.message &&
-                <span>{error.message}</span>
-            }
-        </>
+    return(
+        <Grid>
+        <Paper elevation={10} style={paperStyle}>
+            <Grid >
+                <Avatar style={avatarStyle}>
+                    
+                </Avatar>
+                <Typography variant="h2">Connexion</Typography>
+            </Grid>
+            <form  onSubmit={handleSubmit}>
+            <TextField label="login" name="login" placeholder="Entrer le nom d\'utilisateur" fullWidth required />
+            <TextField label="Password" name="password" placeholder="Entrer le mot de passe" type="password" fullWidth required />
+            <FormControlLabel
+                control={
+                    <Checkbox name="checkedB" color="primary" />
+                }
+                label="Se souvenir de moi"
+            />
+            <Button type="submit" color="success" variant="contained" style={btnstyle} fullWidth>
+                Sign in
+            </Button>
+            </form>
+            <Typography>
+                <Link href="#">Mot de passe oublié ?</Link>
+            </Typography>
+            <Typography>
+            Vous n avez pas de compte ?
+                <Link href="#">Inscrire</Link>
+            </Typography>
+        </Paper>
+        { session.token &&
+            <span>{session.username} : {session.token}</span>
+        }
+        { error.message &&
+            <span>{error.message}</span>
+        }
+    </Grid>
+
     );
 }

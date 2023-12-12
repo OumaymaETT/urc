@@ -32,4 +32,9 @@ export interface SessionCallback {
 export interface ErrorCallback {
     (error: CustomError): void;
 }
+export interface Account {
+    username: string;
+    email: string;
+    password: string;
+  }
 
