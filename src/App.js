@@ -1,35 +1,42 @@
 import './App.css';
-import {Login} from "./user/Login";
-import {Test} from "./user/Test";
+import { useState } from 'react';
+import { Login } from './user/Login';
+import { Test } from './user/Test';
 import SignUpForm from './user/SignUpForm';
-
-
-import * as React from 'react';
+import UsersAndRoomsList from './user/UsersAndRoomsList';
 import { BrowserRouter as Router, Routes, Link, Route } from 'react-router-dom';
 
 function App() {
+  const [loggedInUser, setLoggedInUser] = useState(null); // Initialisez loggedInUser avec useState
 
   return (
-      <Router>
+    <Router>
       <div className="navigation-links">
         <ul>
           <li>
-            <Link to="/">Home</Link>
+            <Link to="/">Connexion/Déconnexion</Link>
+          </li>
+          
+          <li>
+            <Link to="/signup">Inscription</Link>
           </li>
           <li>
-            <Link to="/about">About</Link>
+            <Link to="/users-and-rooms">Chat</Link>
           </li>
-          <li>
-            <Link to="/signup">Signup</Link>
-          </li>
+          
         </ul>
 
         <hr />
         <Routes>
-          <Route exact path="/" element={<Login />} />
-          <Route exact path="/about" element={<Test  />} />
-          <Route path="/signup" element={<SignUpForm/>} />
+          <Route exact path="/" element={<Login setLoggedInUser={setLoggedInUser} />} />
           
+          <Route path="/signup" element={<SignUpForm />} />
+          <Route
+            exact
+            path="/users-and-rooms"
+            element={<UsersAndRoomsList loggedInUser={loggedInUser} />}
+          />
+          <Route path="/messages/user/:userId" element={<UsersAndRoomsList loggedInUser={loggedInUser} />} />
         </Routes>
       </div>
     </Router>

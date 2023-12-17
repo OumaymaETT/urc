@@ -1,6 +1,5 @@
 import {getConnecterUser, triggerNotConnected} from "../lib/session";
-// import {kv} from "@vercel/kv";
-// const PushNotifications = require("@pusher/push-notifications-server");
+import {kv} from "@vercel/kv";
 
 export default async (request, response) => {
     try {
@@ -10,11 +9,11 @@ export default async (request, response) => {
             console.log("Not connected");
             triggerNotConnected(response);
         }
-
         const message = await request.body;
-
-        // TODO : save message
-
+        const userId = user.userId;
+        const recipientId = message.recipientId;
+        const messagesKey = `messages:${userId}:${recipientId}`;
+        await kv.lpush(messagesKey, JSON.stringify(message));
         response.send("OK");
     } catch (error) {
         console.log(error);

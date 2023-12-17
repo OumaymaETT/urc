@@ -33,10 +33,8 @@ const SignUpForm = () => {
         if (result === true) {
             setFormData({ email: '', password: '', confirmPassword: '', username: '' });
             setError(new CustomError(""));
-            // Rediriger vers la page de login
-            navigate('/login');
-          } else {
-            // Gérer le cas où la création de l'utilisateur a échoué
+            navigate('/');
+          } else { 
             console.error("La création de l'utilisateur a échoué.");
           }
     }, (createAccountError: CustomError) => {

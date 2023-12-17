@@ -38,3 +38,14 @@ export interface Account {
     password: string;
   }
 
+  export interface Message {
+    senderId: number;
+    receiverId: number;
+    messageContent: string;
+    timestamp?: EpochTimeStamp;
+    senderName: string;
+}
+export interface MessageInfos {
+    senderId: number;
+    receiverId: number;
+    }

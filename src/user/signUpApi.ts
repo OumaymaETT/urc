@@ -12,12 +12,11 @@ export function createUser(account: Account, onResult: (success: boolean) => voi
   })
     .then(async (response) => {
       if (response.ok) {
-        // Si la réponse est un succès (200 OK), procédez normalement
         onResult(true);
       } else {
         const error = await response.json() as CustomError;
         onError(error);
-        onResult(false); // Signalise l'échec de la création du compte
+        onResult(false); 
       }
     }, onError);
     
